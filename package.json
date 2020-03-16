@@ -1,0 +1,41 @@
+{
+  "name": "react-fizzy-carousel",
+  "version": "1.0.0",
+  "description": "Pure React carousel",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "npm run typecheck && npm run lint",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anton-drobot/react-fizzy-carousel.git"
+  },
+  "keywords": [
+    "react",
+    "carousel",
+    "slider"
+  ],
+  "author": "Anton Drobot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anton-drobot/react-fizzy-carousel/issues"
+  },
+  "homepage": "https://github.com/anton-drobot/react-fizzy-carousel#readme",
+  "devDependencies": {
+    "@types/react": "^16.9.23",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-react": "^7.19.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  }
+}

@@ -309,3 +309,4 @@ dist
 ### User Defined
 
 .idea/*
+lib/*
