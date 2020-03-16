@@ -13,7 +13,8 @@
   "files": [
     "es",
     "lib",
-    "src"
+    "src",
+    "styles.css"
   ],
   "repository": {
     "type": "git",

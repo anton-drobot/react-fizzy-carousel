@@ -1,0 +1,21 @@
+.FizzyCarousel {}
+
+.FizzyCarousel_ready {}
+
+.FizzyCarousel__slides {
+    overflow: hidden;
+}
+
+.FizzyCarousel__slidesWrapper {
+    display: flex;
+}
+
+.FizzyCarousel__slide {
+    flex-shrink: 0;
+}
+
+.FizzyCarousel__controls {}
+
+.FizzyCarousel__previousControl {}
+
+.FizzyCarousel__nextControl {}
