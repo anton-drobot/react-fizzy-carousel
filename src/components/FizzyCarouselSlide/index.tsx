@@ -17,4 +17,3 @@ const FizzyCarouselSlide: React.FC<IFizzyCarouselSlidePropTypes> = (props: IFizz
 };
 
 export default FizzyCarouselSlide;
-
