@@ -54,67 +54,18 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
     }
 
     public componentDidMount(): void {
-        const { isInfinity, slidesToShow, slidesToScroll } = this.props;
-        const { vector, activeSlide } = this.state;
-        const nextVectorState = {
-            vector
-        };
-
-        if (isInfinity && slidesToShow === 1 && slidesToScroll === 1) {
-            // TODO: доделать правильное дублирование слайдов, которое зависит от количества вмещаемых элементов на экране
-            const nextVector = [...vector];
-            const count = Math.ceil((vector.length - 1) / 2);
-
-            for (let i = 0; i <= count; i++) {
-                const endUniqId = vector[vector.length - 1].uniqId + i + 1;
-                const startUniqId = vector[0].uniqId - i - 1;
-
-                this.itemsRefs[endUniqId] = React.createRef<HTMLDivElement>();
-                this.itemsRefs[startUniqId] = React.createRef<HTMLDivElement>();
-
-                nextVector.push({
-                    index: vector[i].index,
-                    uniqId: endUniqId
-                });
-                nextVector.unshift({
-                    index: vector[vector[vector.length - 1].index - i].index,
-                    uniqId: startUniqId
-                });
-            }
-
-            nextVectorState.vector = nextVector;
-        }
-
-        this.setState(nextVectorState, () => {
-            this.setState(
-                {
-                    translateX: this.getNextTranslateX(activeSlide)
-                },
-                () => {
-                    setTimeout(() => {
-                        this.setState(
-                            {
-                                isPreventingAnimation: false
-                            },
-                            () => {
-                                // TODO: onReady event
-                            }
-                        );
-                    }, 0);
-                }
-            );
-        });
+        this.rebuildSlides();
     }
 
     private handleDirectionButtonClick = (direction: 'previous' | 'next', e: React.MouseEvent): void => {
-        const { isInfinity, slidesToShow, slidesToScroll, children } = this.props;
+        const { hasRewind, isInfinity, slidesToShow, slidesToScroll, children } = this.props;
         const { activeSlide } = this.state;
 
         e.preventDefault();
 
         const sign = direction === 'previous' ? -1 : 1;
         const slidesCount = React.Children.count(children);
-        const nextActiveSlide = (activeSlide + sign + slidesCount) % React.Children.count(children);
+        const nextActiveSlide = (activeSlide + sign + slidesCount) % slidesCount;
         const isMovingToStart = nextActiveSlide === 0 && activeSlide === slidesCount - 1;
         const isMovingToEnd = nextActiveSlide === slidesCount - 1 && activeSlide === 0;
 
@@ -142,6 +93,10 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
                     }
                 );
             } else {
+                if (!hasRewind && ((activeSlide === 0 && sign < 0) || (activeSlide === slidesCount - 1 && sign > 0))) {
+                    return;
+                }
+
                 this.setState(
                     {
                         activeSlide: nextActiveSlide,
@@ -158,6 +113,45 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
     private getDefaultStateFromProps(props: IFizzyCarouselInnerComponentPropTypes): IFizzyCarouselInnerComponentState {
         const { activeSlide, children } = props;
         const slidesCount = React.Children.count(children);
+        const vector = this.buildDefaultVector(slidesCount);
+
+        return {
+            vector,
+            activeSlide,
+            translateX: 0,
+            isPreventingAnimation: false
+        };
+    }
+
+    private rebuildSlides(): void {
+        const { activeSlide } = this.state;
+        const nextVectorState = {
+            vector: this.buildVector()
+        };
+
+        this.setState(nextVectorState, () => {
+            this.setState(
+                {
+                    translateX: this.getNextTranslateX(activeSlide),
+                    isPreventingAnimation: true
+                },
+                () => {
+                    setTimeout(() => {
+                        this.setState(
+                            {
+                                isPreventingAnimation: false
+                            },
+                            () => {
+                                // TODO: onReady event
+                            }
+                        );
+                    }, 0);
+                }
+            );
+        });
+    }
+
+    private buildDefaultVector(slidesCount: number): IFizzyCarouselInnerComponentState['vector'] {
         const vector = [];
 
         for (let i = 0; i < slidesCount; i++) {
@@ -167,12 +161,58 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
             });
         }
 
-        return {
-            vector,
-            activeSlide,
-            translateX: 0,
-            isPreventingAnimation: true
-        };
+        return vector;
+    }
+
+    private buildVector(): IFizzyCarouselInnerComponentState['vector'] {
+        const { isCenterMode, isInfinity, children } = this.props;
+        const slidesCount = React.Children.count(children);
+        const defaultVector = this.buildDefaultVector(slidesCount);
+        const vector = [...defaultVector];
+
+        if (!this.slidesRef.current || !isInfinity) {
+            return vector;
+        }
+
+        let accWidthRightSide = 0;
+        let accWidtLeftSide = 0;
+        let nextSlideForRightSide = 0;
+        let nextSlideForLeftSide = slidesCount - 1;
+        const slidesRect = getElementRect(this.slidesRef.current);
+
+        while (accWidthRightSide < (isCenterMode ? (slidesRect.width / 2) : (slidesRect.width * 1.5))) {
+            if (this.itemsRefs[nextSlideForRightSide] && this.itemsRefs[nextSlideForRightSide].current) {
+                accWidthRightSide += getElementRect(this.itemsRefs[nextSlideForRightSide].current as HTMLDivElement).outerWidth
+            }
+
+            const uniqId = vector[vector.length - 1].uniqId + 1;
+            this.itemsRefs[uniqId] = React.createRef<HTMLDivElement>();
+
+            vector.push({
+                index: defaultVector[nextSlideForRightSide].index,
+                uniqId
+            });
+
+            nextSlideForRightSide = (nextSlideForRightSide + 1) % slidesCount;
+        }
+
+        while (accWidtLeftSide < slidesRect.width / 2) {
+            if (this.itemsRefs[nextSlideForLeftSide] && this.itemsRefs[nextSlideForLeftSide].current) {
+                accWidtLeftSide += getElementRect(this.itemsRefs[nextSlideForLeftSide].current as HTMLDivElement).outerWidth
+            }
+
+            const uniqId = vector[0].uniqId - 1;
+            this.itemsRefs[uniqId] = React.createRef<HTMLDivElement>();
+
+            vector.unshift({
+                index: defaultVector[nextSlideForLeftSide].index,
+                uniqId
+            });
+
+            nextSlideForLeftSide = (nextSlideForLeftSide + slidesCount - 1) % slidesCount;
+        }
+
+        return vector;
     }
 
     private getNextTranslateX(nextActiveSlide: number): number {
@@ -193,11 +233,11 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
 
         if (isCenterMode) {
             return Math.round(
-                computedTranslateX + slidesRect.width / 2 - nextActiveSlideRect.left - nextActiveSlideRect.width / 2
+                computedTranslateX + slidesRect.width / 2 - nextActiveSlideRect.left - nextActiveSlideRect.width / 2 + slidesRect.left
             );
         }
 
-        return Math.round(computedTranslateX - nextActiveSlideRect.left);
+        return Math.round(computedTranslateX - nextActiveSlideRect.left + slidesRect.left);
     }
 
     public render(): React.ReactNode {
