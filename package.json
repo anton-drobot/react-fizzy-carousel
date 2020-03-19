@@ -8,7 +8,9 @@
     "test": "npm run typecheck && npm run lint",
     "typecheck": "tsc --noEmit",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./",
-    "build": "rm -rf ./lib ./es && tsc --module esnext --outDir ./es && tsc --module commonjs --outDir ./lib"
+    "build": "rm -rf ./lib ./es ./docs ./docs-build && tsc --module esnext --outDir ./es && tsc --module commonjs --outDir ./lib && npm run build-storybook",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook -o ./docs"
   },
   "files": [
     "es",
@@ -32,15 +34,24 @@
   },
   "homepage": "https://github.com/anton-drobot/react-fizzy-carousel#readme",
   "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@storybook/addon-actions": "^5.3.17",
+    "@storybook/addon-info": "^5.3.17",
+    "@storybook/addon-links": "^5.3.17",
+    "@storybook/addons": "^5.3.17",
+    "@storybook/react": "^5.3.17",
     "@types/react": "^16.9.23",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.23.0",
+    "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-react": "^7.19.0",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
+    "react-docgen-typescript-loader": "^3.7.1",
+    "ts-loader": "^6.2.1",
     "typescript": "^3.8.3"
   },
   "peerDependencies": {

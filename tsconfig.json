@@ -12,7 +12,7 @@
     // "sourceMap": true,                     /* Generates corresponding '.map' file. */
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     "outDir": "./" /* Redirect output structure to the directory. */,
-    "rootDir": "./src", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "rootDirs": ["./src", "./stories"], /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "composite": true,                     /* Enable project compilation */
     // "removeComments": true,                /* Do not emit comments to output. */
     // "noEmit": true,                        /* Do not emit outputs. */
@@ -30,6 +30,7 @@
     // "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
 
     /* Additional Checks */
+    "skipLibCheck": true,
     "noUnusedLocals": true /* Report errors on unused locals. */,
     // "noUnusedParameters": true,            /* Report errors on unused parameters. */
     "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
@@ -45,7 +46,7 @@
     "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
-    "resolveJsonModule": true /* Allows for importing, extracting types from and generating .json files. */,
+    "resolveJsonModule": true /* Allows for importing, extracting types from and generating .json files. */
 
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
@@ -57,5 +58,5 @@
     // "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "exclude": ["node_modules", "es", "lib"]
+  "exclude": ["node_modules", "es", "lib", "docs", "docs-build"]
 }
