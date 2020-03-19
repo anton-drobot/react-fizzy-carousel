@@ -2,7 +2,7 @@ import React from 'react';
 
 import IFizzyCarouselPropTypes from './IFizzyCarouselPropTypes';
 
-import FizzyCarouselInnerComponent from "../FizzyCarouselInnerComponent";
+import FizzyCarouselInnerComponent from '../FizzyCarouselInnerComponent';
 
 interface IFizzyCarouselState {
     vector: Array<{

@@ -13,21 +13,20 @@ interface ISimpleSlideProps {
 }
 
 const SimpleSlide: React.FC<ISimpleSlideProps> = (props: ISimpleSlideProps) => {
-    const {className, children} = props;
+    const { className, children } = props;
 
-    return (
-        <div className={['FizzyCarouselSimpleSlide', className].filter(Boolean).join(' ')}>
-            {children}
-        </div>
-    );
+    return <div className={['FizzyCarouselSimpleSlide', className].filter(Boolean).join(' ')}>{children}</div>;
 };
 
 const CustomControlsPrev: React.FC<IFizzyCarouselControlPropTypes> = (props: IFizzyCarouselControlPropTypes) => {
-    const {isDisabled, onClick} = props;
-    const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-        action('custom prev button clicked');
-        onClick(e);
-    }, [onClick, action]);
+    const { isDisabled, onClick } = props;
+    const handleClick = useCallback(
+        (e: React.MouseEvent<HTMLDivElement>) => {
+            action('custom prev button clicked');
+            onClick(e);
+        },
+        [onClick, action]
+    );
     const disabledClass = isDisabled && 'FizzyCarouselCustomButton_disabled';
 
     return (
@@ -38,11 +37,14 @@ const CustomControlsPrev: React.FC<IFizzyCarouselControlPropTypes> = (props: IFi
 };
 
 const CustomControlsNext: React.FC<IFizzyCarouselControlPropTypes> = (props: IFizzyCarouselControlPropTypes) => {
-    const {isDisabled, onClick} = props;
-    const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-        action('custom next button clicked');
-        onClick(e);
-    }, [onClick, action]);
+    const { isDisabled, onClick } = props;
+    const handleClick = useCallback(
+        (e: React.MouseEvent<HTMLDivElement>) => {
+            action('custom next button clicked');
+            onClick(e);
+        },
+        [onClick, action]
+    );
     const disabledClass = isDisabled && 'FizzyCarouselCustomButton_disabled';
 
     return (
@@ -66,7 +68,7 @@ export const Example = (): React.ReactNode => (
 );
 
 Example.story = {
-    name: 'Default Example',
+    name: 'Default Example'
 };
 
 export const ActiveSlide = (): React.ReactNode => (
@@ -83,7 +85,7 @@ export const ActiveSlide = (): React.ReactNode => (
 );
 
 ActiveSlide.story = {
-    name: 'Active Slide',
+    name: 'Active Slide'
 };
 
 export const RewindSlides = (): React.ReactNode => (
@@ -96,7 +98,7 @@ export const RewindSlides = (): React.ReactNode => (
 );
 
 RewindSlides.story = {
-    name: 'Rewind Slides',
+    name: 'Rewind Slides'
 };
 
 export const InfinityScroll = (): React.ReactNode => (
@@ -113,7 +115,7 @@ export const InfinityScroll = (): React.ReactNode => (
 );
 
 InfinityScroll.story = {
-    name: 'Infinity Scroll',
+    name: 'Infinity Scroll'
 };
 
 export const CenterMode = (): React.ReactNode => (
@@ -130,7 +132,7 @@ export const CenterMode = (): React.ReactNode => (
 );
 
 CenterMode.story = {
-    name: 'Center Mode',
+    name: 'Center Mode'
 };
 
 export const CenterModeAndRewindSlides = (): React.ReactNode => (
@@ -143,7 +145,7 @@ export const CenterModeAndRewindSlides = (): React.ReactNode => (
 );
 
 CenterModeAndRewindSlides.story = {
-    name: 'Center Mode and Rewind Slides',
+    name: 'Center Mode and Rewind Slides'
 };
 
 export const CenterModeAndInfinityScroll = (): React.ReactNode => (
@@ -156,7 +158,7 @@ export const CenterModeAndInfinityScroll = (): React.ReactNode => (
 );
 
 CenterModeAndInfinityScroll.story = {
-    name: 'Center Mode and Infinity Scroll',
+    name: 'Center Mode and Infinity Scroll'
 };
 
 export const AnimationDuration = (): React.ReactNode => (
@@ -169,7 +171,7 @@ export const AnimationDuration = (): React.ReactNode => (
 );
 
 AnimationDuration.story = {
-    name: 'Animation Duration',
+    name: 'Animation Duration'
 };
 
 export const CustomControls = (): React.ReactNode => (
@@ -182,7 +184,7 @@ export const CustomControls = (): React.ReactNode => (
 );
 
 CustomControls.story = {
-    name: 'Custom Controls',
+    name: 'Custom Controls'
 };
 
 export const WithoutControls = (): React.ReactNode => (
@@ -195,10 +197,10 @@ export const WithoutControls = (): React.ReactNode => (
 );
 
 WithoutControls.story = {
-    name: 'Without Controls',
+    name: 'Without Controls'
 };
 
 export default {
     title: 'FizzyCarousel',
-    component: FizzyCarousel,
+    component: FizzyCarousel
 };

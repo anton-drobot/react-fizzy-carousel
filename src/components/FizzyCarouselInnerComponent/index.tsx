@@ -41,7 +41,10 @@ interface IFizzyCarouselInnerComponentState {
 
 const THROTTLE_DELAY = 300;
 
-export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouselInnerComponentPropTypes, IFizzyCarouselInnerComponentState> {
+export default class FizzyCarouselInnerComponent extends Component<
+    IFizzyCarouselInnerComponentPropTypes,
+    IFizzyCarouselInnerComponentState
+> {
     private slidesRef = React.createRef<HTMLDivElement>();
     private slidesWrapperRef = React.createRef<HTMLDivElement>();
     private itemsRefs: Record<number, React.RefObject<HTMLDivElement>> = {};
@@ -193,9 +196,10 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
         let nextSlideForLeftSide = slidesCount - 1;
         const slidesRect = getElementRect(this.slidesRef.current);
 
-        while (accWidthRightSide < (centerMode ? (slidesRect.width / 2) : (slidesRect.width * 1.5))) {
+        while (accWidthRightSide < (centerMode ? slidesRect.width / 2 : slidesRect.width * 1.5)) {
             if (this.itemsRefs[nextSlideForRightSide] && this.itemsRefs[nextSlideForRightSide].current) {
-                accWidthRightSide += getElementRect(this.itemsRefs[nextSlideForRightSide].current as HTMLDivElement).outerWidth
+                accWidthRightSide += getElementRect(this.itemsRefs[nextSlideForRightSide].current as HTMLDivElement)
+                    .outerWidth;
             }
 
             const uniqId = vector[vector.length - 1].uniqId + 1;
@@ -211,7 +215,8 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
 
         while (accWidtLeftSide < slidesRect.width / 2) {
             if (this.itemsRefs[nextSlideForLeftSide] && this.itemsRefs[nextSlideForLeftSide].current) {
-                accWidtLeftSide += getElementRect(this.itemsRefs[nextSlideForLeftSide].current as HTMLDivElement).outerWidth
+                accWidtLeftSide += getElementRect(this.itemsRefs[nextSlideForLeftSide].current as HTMLDivElement)
+                    .outerWidth;
             }
 
             const uniqId = vector[0].uniqId - 1;
@@ -246,7 +251,11 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
 
         if (centerMode) {
             return Math.round(
-                computedTranslateX + slidesRect.width / 2 - nextActiveSlideRect.left - nextActiveSlideRect.width / 2 + slidesRect.left
+                computedTranslateX +
+                    slidesRect.width / 2 -
+                    nextActiveSlideRect.left -
+                    nextActiveSlideRect.width / 2 +
+                    slidesRect.left
             );
         }
 
@@ -270,9 +279,7 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
         const isNextButtonDisabled = !infinity && !rewind && activeSlide === React.Children.count(children) - 1;
         const elements = React.Children.toArray(children);
         const transformStyle = `translateX(${translateX}px) translateZ(0px)`;
-        const transitionStyle = !isPreventingAnimation
-            ? `transform ${animationDuration}ms ease-in-out 0s`
-            : undefined;
+        const transitionStyle = !isPreventingAnimation ? `transform ${animationDuration}ms ease-in-out 0s` : undefined;
 
         return (
             <div className={['FizzyCarousel', className].filter(Boolean).join(' ')}>
@@ -293,7 +300,11 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
                         }}
                     >
                         {vector.map(({ index, uniqId }) => (
-                            <FizzyCarouselSlide key={uniqId} innerRef={this.itemsRefs[uniqId]} className={slideClassName}>
+                            <FizzyCarouselSlide
+                                key={uniqId}
+                                innerRef={this.itemsRefs[uniqId]}
+                                className={slideClassName}
+                            >
                                 {elements[index]}
                             </FizzyCarouselSlide>
                         ))}

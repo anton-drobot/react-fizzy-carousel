@@ -62,4 +62,3 @@ const FizzyCarouselControls: React.FC<ISliderArrowsPropTypes> = (props: ISliderA
 };
 
 export default FizzyCarouselControls;
-
