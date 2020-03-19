@@ -6,14 +6,14 @@ export default interface IFizzyCarouselPropTypes {
     className?: string;
     slideClassName?: string;
     activeSlide?: number;
-    hasArrows?: boolean;
-    leftArrow?: React.ComponentType<IFizzyCarouselControlPropTypes>;
-    rightArrow?: React.ComponentType<IFizzyCarouselControlPropTypes>;
+    controls?: boolean;
+    leftControl?: React.ComponentType<IFizzyCarouselControlPropTypes>;
+    rightControl?: React.ComponentType<IFizzyCarouselControlPropTypes>;
     //onChangeClick?: (direction: 'previous' | 'next', e: React.MouseEvent) => void; // TODO
     //onReady?: () => void; // TODO
-    isCenterMode?: boolean;
-    isInfinity?: boolean;
-    hasRewind?: boolean;
+    centerMode?: boolean;
+    infinity?: boolean;
+    rewind?: boolean;
     //slidesToShow?: number; // TODO
     //slidesToScroll?: number; // TODO
     //animation?: 'scroll' | 'fade'; // TODO

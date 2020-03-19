@@ -17,10 +17,10 @@ interface IFizzyCarouselState {
 export default class FizzyCarousel extends React.Component<IFizzyCarouselPropTypes, IFizzyCarouselState> {
     public static defaultProps = {
         activeSlide: 0,
-        hasArrows: true,
-        isCenterMode: false,
-        isInfinity: false,
-        hasRewind: false,
+        controls: true,
+        centerMode: false,
+        infinity: false,
+        rewind: false,
         animationDuration: 300
     };
 
@@ -29,12 +29,12 @@ export default class FizzyCarousel extends React.Component<IFizzyCarouselPropTyp
             className,
             slideClassName,
             activeSlide,
-            hasArrows,
-            leftArrow,
-            rightArrow,
-            isCenterMode,
-            isInfinity,
-            hasRewind,
+            controls,
+            leftControl,
+            rightControl,
+            centerMode,
+            infinity,
+            rewind,
             animationDuration,
             children
         } = this.props;
@@ -44,12 +44,12 @@ export default class FizzyCarousel extends React.Component<IFizzyCarouselPropTyp
                 className={className}
                 slideClassName={slideClassName}
                 activeSlide={activeSlide as NonNullable<IFizzyCarouselPropTypes['activeSlide']>}
-                hasArrows={hasArrows as NonNullable<IFizzyCarouselPropTypes['hasArrows']>}
-                leftArrow={leftArrow}
-                rightArrow={rightArrow}
-                isCenterMode={isCenterMode as NonNullable<IFizzyCarouselPropTypes['isCenterMode']>}
-                isInfinity={isInfinity as NonNullable<IFizzyCarouselPropTypes['isInfinity']>}
-                hasRewind={hasRewind as NonNullable<IFizzyCarouselPropTypes['hasRewind']>}
+                controls={controls as NonNullable<IFizzyCarouselPropTypes['controls']>}
+                leftControl={leftControl}
+                rightControl={rightControl}
+                centerMode={centerMode as NonNullable<IFizzyCarouselPropTypes['centerMode']>}
+                infinity={infinity as NonNullable<IFizzyCarouselPropTypes['infinity']>}
+                rewind={rewind as NonNullable<IFizzyCarouselPropTypes['rewind']>}
                 slidesToShow={1}
                 slidesToScroll={1}
                 animationDuration={animationDuration as NonNullable<IFizzyCarouselPropTypes['animationDuration']>}

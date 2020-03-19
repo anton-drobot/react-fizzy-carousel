@@ -87,7 +87,7 @@ ActiveSlide.story = {
 };
 
 export const RewindSlides = (): React.ReactNode => (
-    <FizzyCarousel hasRewind>
+    <FizzyCarousel rewind>
         <SimpleSlide>1</SimpleSlide>
         <SimpleSlide>2</SimpleSlide>
         <SimpleSlide>3</SimpleSlide>
@@ -100,7 +100,7 @@ RewindSlides.story = {
 };
 
 export const InfinityScroll = (): React.ReactNode => (
-    <FizzyCarousel isInfinity>
+    <FizzyCarousel infinity>
         <SimpleSlide>1</SimpleSlide>
         <SimpleSlide>2</SimpleSlide>
         <SimpleSlide className="FizzyCarouselSimpleSlide_wide">wide</SimpleSlide>
@@ -117,7 +117,7 @@ InfinityScroll.story = {
 };
 
 export const CenterMode = (): React.ReactNode => (
-    <FizzyCarousel isCenterMode>
+    <FizzyCarousel centerMode>
         <SimpleSlide>1</SimpleSlide>
         <SimpleSlide>2</SimpleSlide>
         <SimpleSlide className="FizzyCarouselSimpleSlide_wide">wide</SimpleSlide>
@@ -134,7 +134,7 @@ CenterMode.story = {
 };
 
 export const CenterModeAndRewindSlides = (): React.ReactNode => (
-    <FizzyCarousel isCenterMode hasRewind>
+    <FizzyCarousel centerMode rewind>
         <SimpleSlide>1</SimpleSlide>
         <SimpleSlide>2</SimpleSlide>
         <SimpleSlide>3</SimpleSlide>
@@ -147,7 +147,7 @@ CenterModeAndRewindSlides.story = {
 };
 
 export const CenterModeAndInfinityScroll = (): React.ReactNode => (
-    <FizzyCarousel isCenterMode isInfinity>
+    <FizzyCarousel centerMode infinity>
         <SimpleSlide>1</SimpleSlide>
         <SimpleSlide>2</SimpleSlide>
         <SimpleSlide>3</SimpleSlide>
@@ -173,7 +173,7 @@ AnimationDuration.story = {
 };
 
 export const CustomControls = (): React.ReactNode => (
-    <FizzyCarousel leftArrow={CustomControlsPrev} rightArrow={CustomControlsNext}>
+    <FizzyCarousel leftControl={CustomControlsPrev} rightControl={CustomControlsNext}>
         <SimpleSlide>1</SimpleSlide>
         <SimpleSlide>2</SimpleSlide>
         <SimpleSlide>3</SimpleSlide>
@@ -186,7 +186,7 @@ CustomControls.story = {
 };
 
 export const WithoutControls = (): React.ReactNode => (
-    <FizzyCarousel hasArrows={false}>
+    <FizzyCarousel controls={false}>
         <SimpleSlide>1</SimpleSlide>
         <SimpleSlide>2</SimpleSlide>
         <SimpleSlide>3</SimpleSlide>

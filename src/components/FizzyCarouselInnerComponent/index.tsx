@@ -13,14 +13,14 @@ interface IFizzyCarouselInnerComponentPropTypes {
     className?: string;
     slideClassName?: string;
     activeSlide: number;
-    hasArrows: boolean;
-    leftArrow?: React.ComponentType<IFizzyCarouselControlPropTypes>;
-    rightArrow?: React.ComponentType<IFizzyCarouselControlPropTypes>;
+    controls: boolean;
+    leftControl?: React.ComponentType<IFizzyCarouselControlPropTypes>;
+    rightControl?: React.ComponentType<IFizzyCarouselControlPropTypes>;
     onChangeClick?: (direction: 'previous' | 'next', e: React.MouseEvent) => void; // TODO
     //onReady?: () => void; // TODO
-    isCenterMode: boolean;
-    isInfinity: boolean;
-    hasRewind: boolean;
+    centerMode: boolean;
+    infinity: boolean;
+    rewind: boolean;
     slidesToShow: number; // TODO
     slidesToScroll: number; // TODO
     //animation: 'scroll' | 'fade'; // TODO
@@ -71,7 +71,7 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
     }, THROTTLE_DELAY);
 
     private handleDirectionButtonClick = (direction: 'previous' | 'next', e: React.MouseEvent): void => {
-        const { hasRewind, isInfinity, slidesToShow, slidesToScroll, children } = this.props;
+        const { rewind, infinity, slidesToShow, slidesToScroll, children } = this.props;
         const { activeSlide } = this.state;
 
         e.preventDefault();
@@ -83,7 +83,7 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
         const isMovingToEnd = nextActiveSlide === slidesCount - 1 && activeSlide === 0;
 
         if (slidesToShow === 1 && slidesToScroll === 1) {
-            if (isInfinity && (isMovingToStart || isMovingToEnd)) {
+            if (infinity && (isMovingToStart || isMovingToEnd)) {
                 const temporaryNextActiveSlide = isMovingToStart ? -1 : slidesCount;
 
                 this.setState(
@@ -106,7 +106,7 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
                     }
                 );
             } else {
-                if (!hasRewind && ((activeSlide === 0 && sign < 0) || (activeSlide === slidesCount - 1 && sign > 0))) {
+                if (!rewind && ((activeSlide === 0 && sign < 0) || (activeSlide === slidesCount - 1 && sign > 0))) {
                     return;
                 }
 
@@ -178,12 +178,12 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
     }
 
     private buildVector(): IFizzyCarouselInnerComponentState['vector'] {
-        const { isCenterMode, isInfinity, children } = this.props;
+        const { centerMode, infinity, children } = this.props;
         const slidesCount = React.Children.count(children);
         const defaultVector = this.buildDefaultVector(slidesCount);
         const vector = [...defaultVector];
 
-        if (!this.slidesRef.current || !isInfinity) {
+        if (!this.slidesRef.current || !infinity) {
             return vector;
         }
 
@@ -193,7 +193,7 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
         let nextSlideForLeftSide = slidesCount - 1;
         const slidesRect = getElementRect(this.slidesRef.current);
 
-        while (accWidthRightSide < (isCenterMode ? (slidesRect.width / 2) : (slidesRect.width * 1.5))) {
+        while (accWidthRightSide < (centerMode ? (slidesRect.width / 2) : (slidesRect.width * 1.5))) {
             if (this.itemsRefs[nextSlideForRightSide] && this.itemsRefs[nextSlideForRightSide].current) {
                 accWidthRightSide += getElementRect(this.itemsRefs[nextSlideForRightSide].current as HTMLDivElement).outerWidth
             }
@@ -229,7 +229,7 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
     }
 
     private getNextTranslateX(nextActiveSlide: number): number {
-        const { isCenterMode } = this.props;
+        const { centerMode } = this.props;
 
         if (
             !this.slidesRef.current ||
@@ -244,7 +244,7 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
         const nextActiveSlideRect = getElementRect(this.itemsRefs[nextActiveSlide].current as HTMLDivElement);
         const computedTranslateX = getElementTranslateValues(this.slidesWrapperRef.current).translateX;
 
-        if (isCenterMode) {
+        if (centerMode) {
             return Math.round(
                 computedTranslateX + slidesRect.width / 2 - nextActiveSlideRect.left - nextActiveSlideRect.width / 2 + slidesRect.left
             );
@@ -257,17 +257,17 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
         const {
             className,
             slideClassName,
-            hasArrows,
-            leftArrow,
-            rightArrow,
-            isInfinity,
-            hasRewind,
+            controls,
+            leftControl,
+            rightControl,
+            infinity,
+            rewind,
             animationDuration,
             children
         } = this.props;
         const { vector, activeSlide, translateX, isPreventingAnimation } = this.state;
-        const isPreviousButtonDisabled = !isInfinity && !hasRewind && activeSlide === 0;
-        const isNextButtonDisabled = !isInfinity && !hasRewind && activeSlide === React.Children.count(children) - 1;
+        const isPreviousButtonDisabled = !infinity && !rewind && activeSlide === 0;
+        const isNextButtonDisabled = !infinity && !rewind && activeSlide === React.Children.count(children) - 1;
         const elements = React.Children.toArray(children);
         const transformStyle = `translateX(${translateX}px) translateZ(0px)`;
         const transitionStyle = !isPreventingAnimation
@@ -300,10 +300,10 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
                     </div>
                 </div>
 
-                {hasArrows && (
+                {controls && (
                     <FizzyCarouselControls
-                        previousControl={leftArrow}
-                        nextControl={rightArrow}
+                        previousControl={leftControl}
+                        nextControl={rightControl}
                         onClick={this.handleDirectionButtonClick}
                         isPreviousButtonDisabled={isPreviousButtonDisabled}
                         isNextButtonDisabled={isNextButtonDisabled}
