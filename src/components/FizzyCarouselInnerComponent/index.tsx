@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import throttle from 'lodash.throttle';
 
 import IFizzyCarouselControlPropTypes from '../FizzyCarouselControls/IFizzyCarouselControlPropTypes';
 
@@ -38,6 +39,8 @@ interface IFizzyCarouselInnerComponentState {
     isPreventingAnimation: boolean;
 }
 
+const THROTTLE_DELAY = 300;
+
 export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouselInnerComponentPropTypes, IFizzyCarouselInnerComponentState> {
     private slidesRef = React.createRef<HTMLDivElement>();
     private slidesWrapperRef = React.createRef<HTMLDivElement>();
@@ -55,7 +58,17 @@ export default class FizzyCarouselInnerComponent extends Component<IFizzyCarouse
 
     public componentDidMount(): void {
         this.rebuildSlides();
+
+        window.addEventListener('resize', this.handleResize);
     }
+
+    public componentWillUnmount(): void {
+        window.removeEventListener('resize', this.handleResize);
+    }
+
+    private handleResize = throttle(() => {
+        this.rebuildSlides();
+    }, THROTTLE_DELAY);
 
     private handleDirectionButtonClick = (direction: 'previous' | 'next', e: React.MouseEvent): void => {
         const { hasRewind, isInfinity, slidesToShow, slidesToScroll, children } = this.props;
