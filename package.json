@@ -2,8 +2,8 @@
   "name": "react-fizzy-carousel",
   "version": "1.0.4",
   "description": "Pure React carousel",
-  "main": "./lib/index.js",
-  "module": "./es/index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "scripts": {
     "test": "npm run typecheck && npm run lint",
     "typecheck": "tsc --noEmit",

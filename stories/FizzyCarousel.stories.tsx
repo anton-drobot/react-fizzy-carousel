@@ -1,5 +1,3 @@
-/* eslint-disable react/no-multi-comp */
-
 import React, { useCallback } from 'react';
 import { action } from '@storybook/addon-actions';
 
