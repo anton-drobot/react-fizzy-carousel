@@ -12,6 +12,7 @@
 
 .FizzyCarousel__slide {
     flex-shrink: 0;
+    will-change: transform;
 }
 
 .FizzyCarousel__controls {}
