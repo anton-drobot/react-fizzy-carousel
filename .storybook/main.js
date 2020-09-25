@@ -1,7 +1,5 @@
 const path = require('path');
 
-console.log('yarrr', __dirname);
-
 module.exports = {
     stories: ['../stories/**/*.stories.tsx'],
     addons: ['@storybook/addon-actions', '@storybook/addon-links'],
